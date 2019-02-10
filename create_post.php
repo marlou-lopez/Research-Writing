@@ -91,9 +91,10 @@
 <script src="./js/node_modules/dictionary.js" type="module"></script>
 <script src="./js/node_modules/index.js" type="module"></script> -->
 <!-- <script src="./js/main.js" type="module"></script> -->
+<script src="./js/s_nouns.js" type="module"></script>
 <script>
    let allPosts = JSON.parse(<?php echo json_encode($postData); ?>);
 </script>
-<script src="./js/tfidf.js"></script>
+<script src="./js/tfidf.js" type="module"></script>
 <?php
    include 'templates/footer.php';

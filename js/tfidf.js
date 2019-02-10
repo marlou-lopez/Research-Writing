@@ -1,3 +1,5 @@
+import { nounsEndingInS } from './s_nouns.js';
+
 //Declare Funcion Constructor
 function TFIDF(tokens,otherDocs){
    // Set default values;
@@ -175,9 +177,8 @@ function removeStopWords(tokens) {
 // Stem the terms in the post
 function stemmer(text) {
    let vowels = ['a', 'e', 'i', 'o', 'u'];
-   let withS = ['news','mess','anonymous','hypothesis'];
    let stem = text.map((t) => {
-      if(!withS.includes(t)){
+      if(!nounsEndingInS.includes(t)){
          if (t.endsWith('s')) {
             if (t.endsWith('ss')) {
                if (t.endsWith('less')) {
@@ -195,47 +196,47 @@ function stemmer(text) {
             }
             return t.substring(0, t.length - 1);
          }
-      }
-      if (t.endsWith('ly')) {
-         if (t.length <= 6) return t;
-         if (t.endsWith('ily')) {
-            return t.substring(0, t.length - 3) + 'y';
+         if (t.endsWith('ly')) {
+            if (t.length <= 6) return t;
+            if (t.endsWith('ily')) {
+               return t.substring(0, t.length - 3) + 'y';
+            }
+            if (t.endsWith('fully')) {
+               return t.substring(0, t.length - 5);
+            }
+            return t.substring(0, t.length - 2);
          }
-         if (t.endsWith('fully')) {
-            return t.substring(0, t.length - 5);
-         }
-         return t.substring(0, t.length - 2);
-      }
-      if (t.endsWith('ed')) {
-         if (t.endsWith('ied')) {
-            if (t.length <= 4) {
+         if (t.endsWith('ed')) {
+            if (t.endsWith('ied')) {
+               if (t.length <= 4) {
+                  return t.substring(0, t.length - 1);
+               }
+               return t.substring(0, t.length - 3) + 'y';
+            }
+            if (t.length <= 5) return t;
+            if (t.charAt(t.length - 4) === t.charAt(t.length - 3)) {
+               return t.substring(0, t.length - 3);
+            }
+            if (vowels.includes(t.charAt(t.length - 4))) {
                return t.substring(0, t.length - 1);
             }
-            return t.substring(0, t.length - 3) + 'y';
+            return t.substring(0, t.length - 2);
          }
-         if (t.length <= 5) return t;
-         if (t.charAt(t.length - 4) === t.charAt(t.length - 3)) {
+         if (t.endsWith('ful')) {
+            if (t.length <= 5) return t;
             return t.substring(0, t.length - 3);
          }
-         if (vowels.includes(t.charAt(t.length - 4))) {
-            return t.substring(0, t.length - 1);
+         if (t.endsWith('ible')) {
+            if (t.length <= 5) return t;
+            return t.substring(0, t.length - 4) + 'ibility';
          }
-         return t.substring(0, t.length - 2);
-      }
-      if (t.endsWith('ful')) {
-         if (t.length <= 5) return t;
-         return t.substring(0, t.length - 3);
-      }
-      if (t.endsWith('ible')) {
-         if (t.length <= 5) return t;
-         return t.substring(0, t.length - 4) + 'ibility';
-      }
-      if (t.endsWith('able')) {
-         if (t.length <= 5) return t;
-         if (t.charAt(t.length - 5) === 'e') {
-            return t.substring(0, t.length - 4);
+         if (t.endsWith('able')) {
+            if (t.length <= 5) return t;
+            if (t.charAt(t.length - 5) === 'e') {
+               return t.substring(0, t.length - 4);
+            }
+            return t.substring(0, t.length - 4) + 'ability';
          }
-         return t.substring(0, t.length - 4) + 'ability';
       }
       return t;
    });
@@ -248,7 +249,6 @@ submitBtn.addEventListener("click", generateTags);
 const closeBtn = document.getElementById("keywordCloseBtn");
 closeBtn.addEventListener("click",resetModal);
 
-let postData = document.getElementById("postJSON");
 let title = document.getElementById("title");
 let body = document.getElementById("body");
 
@@ -265,3 +265,4 @@ function resetModal(){
    $("#keywordModal").modal('hide');
    $("#keywordBody").empty();
 }
+
