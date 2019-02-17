@@ -5,7 +5,12 @@
    $data = $user->data();
    $post = new Post();
    $keywords = array();
-   foreach($post->get_not_category_posts(Input::get('category')) as $pd){ // Get document not in the same class
+   
+   /* * * * * * * * * * * * * *
+   *       PROBLEM THREE      *
+   * * * * * * * * * * * * * */
+    // Get document not in the same class
+   foreach($post->get_not_category_posts(Input::get('category')) as $pd){ 
       array_push($keywords,$pd->keywords);
    }
    $postData = '[{}]';
@@ -86,11 +91,7 @@
    <div class="col-md-1"></div>
 </div>
 </div>
-<!-- 
-<script src="./js/node_modules/build.js" type="module"></script>
-<script src="./js/node_modules/dictionary.js" type="module"></script>
-<script src="./js/node_modules/index.js" type="module"></script> -->
-<!-- <script src="./js/main.js" type="module"></script> -->
+
 <script src="./js/s_nouns.js" type="module"></script>
 <script>
    let allPosts = JSON.parse(<?php echo json_encode($postData); ?>);
